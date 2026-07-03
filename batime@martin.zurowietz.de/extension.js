@@ -16,6 +16,9 @@ const _powerToggleSyncOverride = function () {
    let seconds = 0;
    let state = this._proxy.State;
 
+   // Get the battery percentage and round it (e.g., 85.4% -> 85%)
+   let percentage = Math.round(this._proxy.Percentage);
+
    if (this._proxy.State === UPower.DeviceState.CHARGING) {
       seconds = this._proxy.TimeToFull;
    } else if (this._proxy.State === UPower.DeviceState.DISCHARGING) {
@@ -31,7 +34,7 @@ const _powerToggleSyncOverride = function () {
    let minutes = time % 60;
    let hours = Math.floor(time / 60);
 
-   this.title = _('%d\u2236%02d').format(hours, minutes)
+   this.title = _('%d%% (%d\u2236%02d)').format(percentage, hours, minutes);
 
    return true;
 };
